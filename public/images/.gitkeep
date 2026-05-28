@@ -1,0 +1,2 @@
+# Drop product photos in this folder.
+# Reference them from data/products.js using `image: "aria.jpg"` (no leading slash).

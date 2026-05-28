@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lumeria — Designer Lighting</title>
+  <meta name="description" content="Lumeria — a minimal catalogue of designer lighting objects, made in small editions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='6' fill='black'/></svg>" />
+</head>
+<body class="page-catalog">
+  <header class="site-header">
+    <a href="/" class="brand">LUMERIA</a>
+    <nav class="site-nav">
+      <a href="#catalog">Catalogue</a>
+      <a href="#studio">Studio</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Catalogue — Spring 2026</p>
+    <h1>
+      Quiet objects<br />
+      that hold the light.
+    </h1>
+    <p class="lede">
+      Lumeria is a small atelier of designers working in glass, brass, stone and paper.
+      Each piece is made in editions of fewer than two hundred.
+    </p>
+  </section>
+
+  <section id="catalog" class="catalog">
+    <header class="section-head">
+      <span class="section-num">01</span>
+      <h2>The catalogue</h2>
+      <p class="section-sub">Thirty pieces, four designers, one season.</p>
+    </header>
+
+    <div class="filters" role="tablist" aria-label="Filter by type">
+      <button class="filter is-active" data-filter="all" role="tab">All</button>
+      <button class="filter" data-filter="Pendant" role="tab">Pendant</button>
+      <button class="filter" data-filter="Floor lamp" role="tab">Floor</button>
+      <button class="filter" data-filter="Table lamp" role="tab">Table</button>
+      <button class="filter" data-filter="Wall sconce" role="tab">Wall</button>
+      <button class="filter" data-filter="Chandelier" role="tab">Chandelier</button>
+    </div>
+
+    <ul id="product-grid" class="product-grid" aria-live="polite">
+      <!-- Cards injected by /js/catalog.js -->
+    </ul>
+  </section>
+
+  <section id="studio" class="studio">
+    <header class="section-head">
+      <span class="section-num">02</span>
+      <h2>The studio</h2>
+    </header>
+    <div class="studio-grid">
+      <p>
+        Lumeria works from a converted boatyard on the Adriatic.
+        The studio is small on purpose: four designers, eight makers,
+        a single shared kiln. Pieces are signed, numbered, and shipped
+        in handmade crates.
+      </p>
+      <p>
+        We work in cycles of two seasons. Each catalogue is closed when
+        its editions are complete; nothing is reprinted. What you see here
+        is what remains.
+      </p>
+    </div>
+  </section>
+
+  <footer id="contact" class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">LUMERIA</p>
+        <p class="footer-line">Designer lighting · Editions of 200 or fewer</p>
+      </div>
+      <div>
+        <p class="footer-label">Studio</p>
+        <p>Via dei Cantieri 14<br />34132 Trieste, Italy</p>
+      </div>
+      <div>
+        <p class="footer-label">Enquiries</p>
+        <p><a href="mailto:studio@lumeria.com">studio@lumeria.com</a></p>
+      </div>
+      <div>
+        <p class="footer-label">Trade</p>
+        <p><a href="mailto:trade@lumeria.com">trade@lumeria.com</a></p>
+      </div>
+    </div>
+    <p class="copyright">© <span id="year"></span> Lumeria. All rights reserved.</p>
+  </footer>
+
+  <script src="/js/svg-shapes.js"></script>
+  <script src="/js/catalog.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
