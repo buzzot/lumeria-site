@@ -1,5 +1,5 @@
-// LUMERIA — minimal Express server
-// Serves a static catalog and renders product detail pages from data/products.js.
+// LUMERIA — minimal Express server.
+// Auto-discovers product images from /public/images/<folder>/.
 // Compatible with Hostinger Node.js hosting (set start command: `node server.js`).
 
 const path = require("path");
@@ -11,18 +11,43 @@ const products = require("./data/products");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const IMAGES_ROOT = path.join(__dirname, "public", "images");
+const IMG_EXT = /\.(png|jpe?g|webp|gif|avif)$/i;
+
 // Static assets (CSS, JS, images, favicon)
 app.use(express.static(path.join(__dirname, "public"), {
   extensions: ["html"],
   maxAge: process.env.NODE_ENV === "production" ? "7d" : 0
 }));
 
-// Expose product data to client JS
+// Read a product's image folder, return URL-encoded paths
+function discoverImages(product) {
+  const folder = product.folder || product.slug;
+  if (!folder) return [];
+  const dir = path.join(IMAGES_ROOT, folder);
+  let files;
+  try {
+    files = fs.readdirSync(dir);
+  } catch (err) {
+    return [];
+  }
+  return files
+    .filter(f => IMG_EXT.test(f) && !f.startsWith("."))
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    .map(f => `/images/${encodeURIComponent(folder)}/${encodeURIComponent(f)}`);
+}
+
+function enrich(product) {
+  return { ...product, images: discoverImages(product) };
+}
+
+// Expose enriched product data to client JS
 app.get("/data/products.json", (req, res) => {
-  res.json(products);
+  res.set("Cache-Control", "no-store");
+  res.json(products.map(enrich));
 });
 
-// Product detail route — renders /public/product.html and lets client-side JS load the slug
+// Product detail route — renders /public/product.html
 app.get("/product/:slug", (req, res, next) => {
   const product = products.find(p => p.slug === req.params.slug);
   if (!product) return next();

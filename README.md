@@ -22,14 +22,39 @@ npm start
 
 ## Replace the placeholder catalogue with your real products
 
-1. Open `data/products.js`.
-2. Each product is one object with: `slug`, `name`, `designer`, `type`, `price`, `description`, `specs`, `image`, `shape`.
-3. Either:
-   - Drop product photos into `public/images/` and set `image: "aria.jpg"`, or
-   - Leave `image: ""` and set `shape` to one of `"pendant" | "table" | "floor" | "wall" | "chandelier" | "sphere"` to use a generated SVG.
-4. Save. Restart the server (or just refresh — assets are static).
+The site auto-discovers images from per-product folders, so adding a real product
+is two steps.
 
-Filter buttons on the home page use the `type` field, so spelling matters.
+**1. Create the folder and drop images in.**
+
+```
+public/images/<folder-name>/      ← drop one or more .png/.jpg/.webp files here
+```
+
+The folder name is arbitrary (e.g. `05`, `06`, `prism`). Files are shown in
+filename order; rename them `01.jpg`, `02.jpg`… if you want a specific order.
+
+**2. Add one entry to `data/products.js`.**
+
+```js
+{
+  slug: "prism",        // URL: /product/prism
+  folder: "08",         // matches the folder name in public/images/
+  name: "Prism",
+  designer: "Atelier Mori",
+  type: "Pendant",      // must match a filter button: Pendant | Floor lamp | Table lamp | Wall sconce | Chandelier
+  price: 690,
+  description: "…",
+  specs: { dimensions: "…", materials: "…", bulb: "…", cable: "…" }
+}
+```
+
+If you omit `folder`, the server looks in `public/images/<slug>/` instead.
+If the folder has no images, the catalogue falls back to a generated SVG —
+set `shape` to one of `"pendant" | "table" | "floor" | "wall" | "chandelier" | "sphere"`.
+
+Restart the server after editing `products.js`. Adding photos to an existing
+folder is picked up immediately on next page load.
 
 ---
 

@@ -5,13 +5,13 @@
   let products = [];
   let activeFilter = "all";
 
-  function fmtPrice(n) {
-    return "$" + Number(n).toLocaleString("en-US");
+  function escapeAttr(s) {
+    return String(s).replace(/"/g, "&quot;");
   }
 
   function renderImage(p) {
-    if (p.image) {
-      return `<img src="/images/${p.image}" alt="${p.name}" loading="lazy" />`;
+    if (Array.isArray(p.images) && p.images.length > 0) {
+      return `<img src="${p.images[0]}" alt="${escapeAttr(p.name)}" loading="lazy" />`;
     }
     return window.LumeriaShapes.get(p.shape || "pendant");
   }
@@ -21,10 +21,12 @@
       ? products
       : products.filter(p => p.type === activeFilter);
 
-    grid.innerHTML = list.map(p => `
+    grid.innerHTML = list.map(p => {
+      const photoMode = Array.isArray(p.images) && p.images.length > 0;
+      return `
       <li>
         <a class="card" href="/product/${p.slug}">
-          <div class="card-image">${renderImage(p)}</div>
+          <div class="card-image${photoMode ? " card-image--photo" : ""}">${renderImage(p)}</div>
           <div class="card-meta">
             <span class="card-name">${p.name}</span>
             <span class="card-type">${p.type}</span>
@@ -33,7 +35,8 @@
           <p class="card-desc">${p.description}</p>
         </a>
       </li>
-    `).join("");
+    `;
+    }).join("");
   }
 
   filters.forEach(btn => {
